@@ -5,7 +5,8 @@ CREATE PROCEDURE Create_Address
     @postal_code VARCHAR(15),
     @city_name VARCHAR(150),
     @province_name VARCHAR(150),
-    @country_name VARCHAR(150)
+    @country_name VARCHAR(150),
+    @address_id INT OUTPUT
 AS
 BEGIN
     DECLARE 
@@ -44,5 +45,7 @@ BEGIN
 
     INSERT INTO addresses(street_number, street_name, suburb_id, city_id)
     VALUES (@street_number, @street_name, @suburb_id, @city_id);
+
+	SET @address_id = SCOPE_IDENTITY()
 END;
 GO
