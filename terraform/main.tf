@@ -26,6 +26,11 @@ data "aws_security_group" "existing_sg" {
   }
 }
 
+# Fetch the existing DB subnet group
+data "aws_db_subnet_group" "existing_db_subnet_group" {
+  name = var.db_subnet_group_name
+}
+
 resource "aws_db_instance" "bean_there_db" {
   allocated_storage    = var.allocated_storage
   storage_type        = "gp2"
@@ -38,12 +43,5 @@ resource "aws_db_instance" "bean_there_db" {
   publicly_accessible = true
   skip_final_snapshot = true
   vpc_security_group_ids = [data.aws_security_group.existing_sg.id]
-  db_subnet_group_name = aws_db_subnet_group.bean_there_db_subnet_group.name
+  db_subnet_group_name   = data.aws_db_subnet_group.existing_db_subnet_group.name  # Use existing subnet group
 }
-
-resource "aws_db_subnet_group" "bean_there_db_subnet_group" {
-  name        = var.db_subnet_group_name
-  subnet_ids  = data.aws_subnets.private_subnets.ids
-  description = "Subnet group for Bean There DB in private subnets"
-}
-
