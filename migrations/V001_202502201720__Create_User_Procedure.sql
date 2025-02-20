@@ -10,8 +10,7 @@ BEGIN
 
         BEGIN TRY
 
-            DECLARE @contact_id INT,
-                    @user_id INT
+            DECLARE @contact_id INT
                     
             IF EXISTS (SELECT 1 FROM phone_numbers WHERE phone_number = @phone_number)
             BEGIN;
@@ -34,6 +33,8 @@ BEGIN
 
             INSERT INTO [users] (first_name, last_name, contact_id)
             VALUES (@first_name, @last_name, @contact_id);
+            SET @user_id = SCOPE_IDENTITY();
+
 
             COMMIT TRANSACTION;
         END TRY
