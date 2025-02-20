@@ -1,0 +1,2 @@
+CREATE TYPE IdList AS TABLE (id INT);
+GO
